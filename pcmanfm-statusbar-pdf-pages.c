@@ -30,6 +30,7 @@ static char *_sel_message( FmFileInfoList *files, gint n_files )
 	}
 
 	num_pages = poppler_document_get_n_pages( document );
+	g_object_unref(document);
 	return g_strdup_printf( " (%i pages)", num_pages );
 }
 
