@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <string.h>
 #include <pcmanfm-modules.h>
 #include <poppler/glib/poppler-document.h>
@@ -12,6 +13,9 @@ static char *_sel_message( FmFileInfoList *files, gint n_files )
 	PopplerDocument* document;
 	GError *error = NULL;
 	int num_pages;
+	const char *page_label = "page";
+	const char *pages_label = "pages";
+	char *label;
 
 	if( n_files > 1 ){
 		return NULL;
@@ -25,13 +29,24 @@ static char *_sel_message( FmFileInfoList *files, gint n_files )
 	
 	filename = fm_path_to_uri( fm_file_info_get_path( fi ) );
 	document = poppler_document_new_from_file( filename, NULL, &error );
+	if( error != NULL )
+	{
+		fprintf (stderr, "tabbar-pdf-pages error on file %s: %s\n", filename, error->message);
+		g_error_free( error );
+	}
+	free( filename );
 	if( document == NULL ){
 		return NULL;
 	}
 
 	num_pages = poppler_document_get_n_pages( document );
 	g_object_unref(document);
-	return g_strdup_printf( " (%i pages)", num_pages );
+	if( num_pages == 1 ){
+		label = page_label;
+	} else {
+		label = pages_label;
+	}
+	return g_strdup_printf( " (%i %s)", num_pages, label );
 }
 
 FmTabPageStatusInit fm_module_init_tab_page_status = {
