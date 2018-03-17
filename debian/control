@@ -1,0 +1,14 @@
+Source: pcmanfm-statusbar-pdf-pages
+Maintainer: Alessandro Grassi <alessandro.g89@gmail.com>
+Section: utils
+Priority: optional
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 9), gcc, libtool, libpoppler-glib-dev, libfm-dev
+
+Package: pcmanfm-statusbar-pdf-pages
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, pcmanfm, libpoppler-glib8
+Priority: optional
+Section: utils
+Description: PCManFm plugin to show the page count of a PDF in the statusbar
+ This plugin shows the number of pages of a PDF document in the status bar of PCManFM, when a PDF file is selected. It uses libpoppler-glib to parse PDF files.
