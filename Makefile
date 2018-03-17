@@ -1,12 +1,18 @@
+prefix=/usr
+
 CFLAGS = `pkg-config --cflags libfm` `pkg-config --cflags poppler-glib`
-AM_LDFLAGS = `pkg-config --libs poppler-glib` -rpath /usr/lib -no-undefined -module -avoid-version
+LDFLAGS = `pkg-config --libs poppler-glib` -rpath $(prefix)/lib -no-undefined -module -avoid-version
 PLUGIN_NAME = pcmanfm-statusbar-pdf-pages
-PREFIX = /usr/lib/x86_64-linux-gnu/pcmanfm
+
+target=$(shell gcc -dumpmachine)
+libdir=$(prefix)/lib/$(target)
 
 all:
 	libtool --mode=compile gcc $(CFLAGS) -c $(PLUGIN_NAME).c
-	libtool --mode=link gcc $(AM_LDFLAGS) $(PLUGIN_NAME).lo -o $(PLUGIN_NAME).la
+	libtool --mode=link gcc $(LDFLAGS) $(PLUGIN_NAME).lo -o $(PLUGIN_NAME).la
 
 install:
-	libtool --mode=install install -c $(PLUGIN_NAME).la $(PREFIX)
-	libtool --finish $(PREFIX)
+	mkdir -p $(DESTDIR)$(libdir)/pcmanfm
+	libtool --mode=install install -c $(PLUGIN_NAME).la $(DESTDIR)$(libdir)/pcmanfm
+	libtool --finish $(DESTDIR)$(libdir)/pcmanfm
+
