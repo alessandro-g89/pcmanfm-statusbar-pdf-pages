@@ -6,7 +6,7 @@ Standards-Version: 3.9.2
 Build-Depends: debhelper (>= 9), gcc, libtool, libpoppler-glib-dev, libfm-dev
 
 Package: pcmanfm-statusbar-pdf-pages
-Architecture: all
+Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, pcmanfm, libpoppler-glib8
 Priority: optional
 Section: utils
